@@ -54,7 +54,11 @@ List Student Page
                 </td>
                 <td>
                     <a href="<?= base_url('student/edit-student/'.$student['id']) ?>" class="btn btn-info">Edit</a>
-                    <a href="<?= base_url('student/delete-student/'.$student['id']) ?>" class="btn btn-danger">Remove</a>
+                    <a href="#" class="btn btn-danger" onclick="if(confirm('Are you sure about deleting the student information?')){ $('#frm-delete-student_<?= $student['id'] ?>').submit() }">Remove</a>
+
+                    <form id="frm-delete-student_<?= $student['id'] ?>" action="<?= base_url('student/delete-student/'.$student['id']) ?>" method="post"> 
+                      <input type="hidden" name="_method" value="delete">
+                    </form>
                 </td>
             </tr>       
         <?php

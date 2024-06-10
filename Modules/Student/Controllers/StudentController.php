@@ -8,31 +8,6 @@ use Modules\Student\Models\StudentModel;
 
 class StudentController extends BaseController
 {
-    // public function index()
-    // {
-    //     $data=[
-    //         "name"=>"Sharmili",
-    //         "role"=>"Software Developer",
-    //     ];
-    //     return view("\Modules\Student\Views\index",$data);
-    //     // echo "<h1>Welcome, Sharmili.</h1>";
-    // }
-
-    // public function call1()
-    // {
-    //     echo "<h1>This is Call 1.</h1>";
-    // }
-
-    // public function call2()
-    // {
-    //     echo "<h1>This is Call 2.</h1>";
-    // }
-
-    // public function call3()
-    // {
-    //     echo "<h1>This is Call 3.</h1>";
-    // }
-
     // list students
     public function index(){
         $student_obj = new StudentModel();
@@ -86,13 +61,58 @@ class StudentController extends BaseController
         return view("\Modules\Student\Views\student_add");  
     }
 
-
     // edit student
     public function editStudent($id){
-        return view("\Modules\Student\Views\student_edit");
+        $student_obj = new StudentModel();
+        $student = $student_obj->where("id",$id)->first();
+
+        if($this->request->getMethod()== "PUT"){
+            $name= $this->request->getVar('name');
+            $email= $this->request->getVar('email');
+            $phone_number= $this->request->getVar('phone_number');
+            $image= $this->request->getFile('profile_image');
+
+            $profile_image= $student['profile_image'];
+            if(isset($image) && !empty($image->getPath())){
+                $file_name= $image->getName();
+
+                if($image->move("images",$file_name)){
+                    $profile_image= "/images/".$file_name;
+                }
+            }
+
+            $data=[
+                "name" => $name,
+                "email" => $email,
+                "phone_number" => $phone_number,
+                "profile_image" => $profile_image
+            ];
+
+            $session = session();
+
+            if($student_obj->update($id,$data)){
+                $session->setFlashdata("success","Student has been updated successfully");
+            } else{
+                $session->setFlashdata("error","Failed to update student's information");
+            }
+
+            return redirect("student");
+        }
+        // print_r($student);
+        return view("\Modules\Student\Views\student_edit",[
+            "student"=>$student
+        ]);
     }
+
     // delete student
     public function deleteStudent($id){
+        $student_obj= new StudentModel();
+        $student_obj-> delete($id);
 
+        $session= session();
+
+        $session->setFlashdata("success","Student has been deleted successfully"); 
+        
+        return redirect("student");
     }
 }

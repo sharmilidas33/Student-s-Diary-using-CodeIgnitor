@@ -9,9 +9,9 @@ $routes->group("student", ["namespace" => "\Modules\Student\Controllers"], funct
     $routes->match (["get","post"],"add-student","StudentController::addStudent");
 
     // edit student + put data
-    $routes->match (["get","put"],"edit-student/(:num)","StudentController::editStudent/$1");
+    $routes->match (["get","put","post"],"edit-student/(:num)","StudentController::editStudent/$1");
 
     // delete student
-    $routes->delete("delete-student/(:num)", "StudentController::deleteStudent/$1");
+    $routes->match(["delete","post"],"delete-student/(:num)", "StudentController::deleteStudent/$1");
  
 });

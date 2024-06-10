@@ -19,29 +19,41 @@ Edit Student Page
     <a href="<?= base_url('student')?>"style="margin-top: -6px;" class="btn btn-warning pull-right">List Student info</a>
   </div>
   <div class="panel-body">
-  <form class="form-horizontal" id="frm-edit-student" action="" method="post" enctype="multipart/form-data">
+  <form class="form-horizontal" id="frm-edit-student" action="<?= base_url("student/edit-student/".$student['id']) ?>" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="_method" value="PUT">
   <div class="form-group">
     <label class="control-label col-sm-2" for="name">Name:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+      <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="<?= $student["name"] ?>" required>
     </div>
   </div>
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Email:</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="<?= $student["email"] ?>" required>
     </div>
   </div>
   <div class="form-group">
     <label class="control-label col-sm-2" for="phone_number">Phone Number:</label>
     <div class="col-sm-10">
-      <input type="tel" class="form-control" id="phone_number" placeholder="Enter phone number" name="phone_number" required>
+      <input type="tel" class="form-control" id="phone_number" placeholder="Enter phone number" name="phone_number" value="<?= $student["phone_number"] ?>" required>
     </div>
   </div>
   <div class="form-group">
     <label class="control-label col-sm-2" for="profile_image">Profile Image:</label>
     <div class="col-sm-10">
       <input type="file" class="form-control" id="profile_image" name="profile_image">
+      <br/>
+
+      <?php
+        if(!empty($student['profile_image'])){
+            ?>
+                <img src="<?= $student["profile_image"] ?>" class="img-student"/>
+            <?php
+        } else{
+            echo "Profile Image not found!";
+        }
+      ?>
     </div>
   </div>
   <div class="form-group">
