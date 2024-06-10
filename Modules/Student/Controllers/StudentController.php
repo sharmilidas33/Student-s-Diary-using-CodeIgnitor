@@ -43,13 +43,53 @@ class StudentController extends BaseController
             "students"=>$students
         ]);
     }
+    
     // insert student
-    public function addStudent(){
+    public function addStudent()
+    {
+        if ($this->request->getMethod() == "POST") {
+            // print_r($this->request->getVar());
+            $name= $this->request->getVar('name');
+            $email= $this->request->getVar('email');
+            $phone_number= $this->request->getVar('phone_number');
+            $image= $this->request->getFile('profile_image');
 
+            $profile_image= "";
+            if(isset($image) && !empty($image->getPath())){
+                $file_name= $image->getName();
+
+                if($image->move("images",$file_name)){
+                    $profile_image= "/images/".$file_name;
+                }
+            }
+
+            $data=[
+                "name" => $name,
+                "email" => $email,
+                "phone_number" => $phone_number,
+                "profile_image" => $profile_image
+            ];
+
+            // object of StudentModel
+            $student_obj = new StudentModel();
+
+            $session = session();
+
+            if($student_obj->insert($data)){
+                $session->setFlashdata("success","Student has been added successfully");
+            } else{
+                $session->setFlashdata("error","Student creation failed");
+            }
+
+            return redirect("student");
+        }
+        return view("\Modules\Student\Views\student_add");  
     }
+
+
     // edit student
     public function editStudent($id){
-
+        return view("\Modules\Student\Views\student_edit");
     }
     // delete student
     public function deleteStudent($id){

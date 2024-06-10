@@ -12,6 +12,23 @@
  
 <div class="container">
   <h2>Students Diary</h2>
+  <?php
+    if(session()->get("success")){
+      ?>
+      <div class="alert alert-success">
+        <?= session()->get("success")?>
+      </div>
+      <?php
+    }
+
+    if(session()->get("error")){
+      ?>
+      <div class="alert alert-danger">
+        <?= session()->get("error")?>
+      </div>
+      <?php
+    }
+  ?>
    <?= $this->renderSection("body")?> 
 </div>
 
