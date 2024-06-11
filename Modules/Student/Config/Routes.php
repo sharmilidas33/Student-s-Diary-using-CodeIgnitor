@@ -15,3 +15,9 @@ $routes->group("student", ["namespace" => "\Modules\Student\Controllers"], funct
     $routes->match(["delete","post"],"delete-student/(:num)", "StudentController::deleteStudent/$1");
  
 });
+
+$routes->group("api", ["namespace" => "\Modules\Student\Controllers"], function ($routes) {
+
+    $routes->resource("student",["controller"=>"ApiController"]);
+
+});

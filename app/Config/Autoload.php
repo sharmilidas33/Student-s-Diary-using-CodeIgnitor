@@ -41,7 +41,8 @@ class Autoload extends AutoloadConfig
      */
     public $psr4 = [
         APP_NAMESPACE => APPPATH,
-        'Modules\Student' => ROOTPATH . 'Modules\Student'
+        'Modules\Student' => ROOTPATH . 'Modules\Student',
+        'Modules\Device' => ROOTPATH . 'Modules\Device'
     ];
 
     /**
