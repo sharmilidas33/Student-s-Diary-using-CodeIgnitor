@@ -13,6 +13,13 @@ Add Student Page
 <?= $this->endSection() ?>
 
 <?= $this->section("body") ?>
+
+<?php
+  if(isset($validation)){
+    //print_r($validation->listErrors());
+  }
+?>
+
 <div class="panel panel-primary">
   <div class="panel-heading">
     Create Student
@@ -24,19 +31,34 @@ Add Student Page
   <div class="form-group">
     <label class="control-label col-sm-2" for="name">Name:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+      <input type="text" class="form-control" id="name" placeholder="Enter name" name="name"  >
+      <?php
+        if(isset($validation) && $validation->hasError('name')){
+          echo $validation->getError("name");
+        }
+      ?>
     </div>
   </div>
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Email:</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email"  >
+      <?php
+        if(isset($validation) && $validation->hasError('email')){
+          echo $validation->getError("email");
+        }
+      ?>
     </div>
   </div>
   <div class="form-group">
     <label class="control-label col-sm-2" for="phone_number">Phone Number:</label>
     <div class="col-sm-10">
-      <input type="tel" class="form-control" id="phone_number" placeholder="Enter phone number" name="phone_number" required>
+      <input type="tel" class="form-control" id="phone_number" placeholder="Enter phone number" name="phone_number"  >
+      <?php
+        if(isset($validation) && $validation->hasError('phone_number')){
+          echo $validation->getError("phone_number");
+        }
+      ?>
     </div>
   </div>
   <div class="form-group">
@@ -60,7 +82,7 @@ Add Student Page
 
 <script>
     $(function(){
-        $('#frm-add-student').validate();
+        // $('#frm-add-student').validate();
     });
 </script>
 <?= $this->endSection() ?>

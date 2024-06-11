@@ -36,7 +36,14 @@ class ApiController extends ResourceController
      */
     public function show($id = null)
     {
-        //
+        $student_obj= new StudentModel();
+        $student= $student_obj->find($id);
+
+        return $this->respond([
+            "status"=>true,
+            "message"=>"Single Student data",
+            "data"=>$student
+        ]);
     }
 
     /**
@@ -54,9 +61,43 @@ class ApiController extends ResourceController
      *
      * @return ResponseInterface
      */
+
     public function create()
     {
-        //
+        $name = $this->request->getVar("name");
+        $email = $this->request->getVar("email");
+        $phone_number = $this->request->getVar("phone_number");
+        $image= $this->request->getFile('profile_image');
+
+        $profile_image= "";
+        if(isset($image) && !empty($image->getPath())){
+            $file_name= $image->getName();
+
+            if($image->move("images",$file_name)){
+                $profile_iamge= "/image/".$file_name ;
+            }
+        }
+
+        $data=[
+            "name" => $name,
+            "email" => $email,
+            "phone_number" => $phone_number,
+            "profile_image" => $profile_image
+        ];
+
+        $student_obj= new StudentModel();
+
+        if($student_obj->insert($data)){
+            return $this->respond(array(
+                "status"=>1,
+                "message"=>"Single has been created"
+            ));
+        } else{
+            return $this->respond(array(
+                "status"=>0,
+                "message"=>"Failed to create student"
+            ));
+        }
     }
 
     /**
@@ -68,7 +109,40 @@ class ApiController extends ResourceController
      */
     public function edit($id = null)
     {
-        //
+        $name = $this->request->getVar("name");
+        $email = $this->request->getVar("email");
+        $phone_number = $this->request->getVar("phone_number");
+        $image= $this->request->getFile('profile_image');
+
+        $profile_image= "";
+        if(isset($image) && !empty($image->getPath())){
+            $file_name= $image->getName();
+
+            if($image->move("images",$file_name)){
+                $profile_iamge= "/image/".$file_name ;
+            }
+        }
+
+        $data=[
+            "name" => $name,
+            "email" => $email,
+            "phone_number" => $phone_number,
+            "profile_image" => $profile_image
+        ];
+
+        $student_obj= new StudentModel();
+
+        if($student_obj->update($id,$data)){
+            return $this->respond(array(
+                "status"=>1,
+                "message"=>"Single has been created"
+            ));
+        } else{
+            return $this->respond(array(
+                "status"=>0,
+                "message"=>"Failed to update student"
+            ));
+        }
     }
 
     /**
@@ -80,7 +154,40 @@ class ApiController extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        $name = $this->request->getVar("name");
+        $email = $this->request->getVar("email");
+        $phone_number = $this->request->getVar("phone_number");
+        $image= $this->request->getFile('profile_image');
+
+        $profile_image= "";
+        if(isset($image) && !empty($image->getPath())){
+            $file_name= $image->getName();
+
+            if($image->move("images",$file_name)){
+                $profile_iamge= "/image/".$file_name ;
+            }
+        }
+
+        $data=[
+            "name" => $name,
+            "email" => $email,
+            "phone_number" => $phone_number,
+            "profile_image" => $profile_image
+        ];
+
+        $student_obj= new StudentModel();
+
+        if($student_obj->update($id,$data)){
+            return $this->respond(array(
+                "status"=>1,
+                "message"=>"Single has been created"
+            ));
+        } else{
+            return $this->respond(array(
+                "status"=>0,
+                "message"=>"Failed to update student"
+            ));
+        }
     }
 
     /**
@@ -92,6 +199,13 @@ class ApiController extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        $student_obj = new StudentModel();
+
+        $student_obj->delete($id);
+
+        return $this->respond(array(
+            "status"=>1,
+            "message"=>"Student deleted"
+        ));
     }
 }

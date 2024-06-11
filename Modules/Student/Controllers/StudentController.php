@@ -23,6 +23,33 @@ class StudentController extends BaseController
     public function addStudent()
     {
         if ($this->request->getMethod() == "POST") {
+
+            //rules
+            $rules=[
+                "name"=>"required",
+                "email"=>"required",
+                "phone_number"=>"required"
+            ];
+
+
+            $message=[
+                "name"=>[
+                    "required"=>"Name field is needed"
+                ],
+                "email"=>[
+                    "required"=>"Email field is needed"
+                ],
+                "phone_number"=>[
+                    "required"=>"Phone number field is needed"
+                ]
+            ];
+
+            if(!$this->validate($rules, $message)){
+                return view("\Modules\Student\Views\student_add",[
+                    "validation"=> $this->validator
+                ]);
+            }
+
             // print_r($this->request->getVar());
             $name= $this->request->getVar('name');
             $email= $this->request->getVar('email');
